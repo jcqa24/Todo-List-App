@@ -1,0 +1,29 @@
+<!-- src/app/components/todo-form/todo-form.html -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="mb-8 flex flex-col gap-2 sm:flex-row sm:items-start">
+  <div class="flex-1">
+    <input
+      type="text"
+      formControlName="title"
+      placeholder="Añadir una tarea…"
+      class="w-full rounded-md border border-line bg-white px-3 py-2 text-sm placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+    />
+    @if (form.get('title')?.invalid && form.get('title')?.touched) {
+      <p class="mt-1 font-mono text-xs text-danger">mínimo 3 caracteres</p>
+    }
+  </div>
+
+  <input
+    type="text"
+    formControlName="description"
+    placeholder="Detalle (opcional)"
+    class="flex-1 rounded-md border border-line bg-white px-3 py-2 text-sm placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+  />
+
+  <button
+    type="submit"
+    [disabled]="form.invalid"
+    class="font-mono text-sm px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 disabled:bg-primary/30 disabled:cursor-not-allowed transition"
+  >
+    + tarea
+  </button>
+</form>

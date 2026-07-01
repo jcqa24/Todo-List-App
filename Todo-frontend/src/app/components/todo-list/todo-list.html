@@ -1,0 +1,65 @@
+<!-- src/app/components/todo-list/todo-list.html -->
+<div class="min-h-screen">
+  <div class="max-w-2xl mx-auto px-4 py-12">
+    <header class="flex items-baseline justify-between mb-8 border-b border-line pb-4">
+      <h1 class="font-display text-3xl font-semibold tracking-tight">Mis tareas</h1>
+      <span class="font-mono text-sm text-ink/60">
+        {{ openCount() }} abiertas / {{ todos().length }} totales
+      </span>
+    </header>
+
+    <app-todo-form (todoCreated)="loadTodos()"></app-todo-form>
+
+    @if (loading()) {
+      <p class="font-mono text-sm text-ink/50 mt-6">cargando…</p>
+    }
+
+    @if (errorMessage()) {
+      <p class="mt-6 rounded-md border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+        {{ errorMessage() }}
+      </p>
+    }
+
+    @if (!loading() && todos().length === 0 && !errorMessage()) {
+      <p class="mt-10 text-center text-ink/40 font-mono text-sm">— sin tareas pendientes —</p>
+    }
+
+    <ul class="mt-6 space-y-3">
+      @for (todo of todos(); track todo.id; let i = $index) {
+        <li
+          class="group flex items-start gap-4 rounded-lg border border-line bg-white pl-4 pr-3 py-3 shadow-sm transition hover:shadow-md border-l-4"
+          [class.border-success]="todo.completed"
+          [class.border-pending]="!todo.completed"
+        >
+          <span class="font-mono text-xs text-ink/40 mt-1 w-10 shrink-0">
+            #{{ formatId(i) }}
+          </span>
+
+          <input
+            type="checkbox"
+            [checked]="todo.completed"
+            (change)="toggleCompleted(todo)"
+            class="mt-1 h-4 w-4 shrink-0 rounded border-line text-success focus:ring-2 focus:ring-success/40"
+          />
+
+          <div class="flex-1 min-w-0">
+            <p class="font-medium transition" [class.line-through]="todo.completed" [class.opacity-50]="todo.completed">
+              {{ todo.title }}
+            </p>
+            @if (todo.description) {
+              <p class="text-sm text-ink/50 mt-0.5">{{ todo.description }}</p>
+            }
+          </div>
+
+          <button
+            (click)="deleteTodo(todo.id)"
+            class="font-mono text-xs text-ink/30 hover:text-danger transition opacity-0 group-hover:opacity-100 focus:opacity-100"
+            aria-label="Eliminar tarea"
+          >
+            eliminar
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

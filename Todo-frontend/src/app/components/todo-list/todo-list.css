@@ -1,0 +1,30 @@
+/* src/app/components/todo-list/todo-list.css */
+.todo-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  font-family: sans-serif;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.todo-list li.completed .todo-title {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.error {
+  color: red;
+}
